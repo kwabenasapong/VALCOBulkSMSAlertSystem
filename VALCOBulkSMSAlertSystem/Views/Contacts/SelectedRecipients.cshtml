@@ -1,5 +1,4 @@
-﻿
-@model List<string>
+﻿@model List<string>
 
 @{
     ViewData["Title"] = "SelectRecipients";
@@ -14,12 +13,20 @@
         @for (int i = 0; i < contactsList.Count; i++)
         {
             <div class="col-sm-3">
-                <div class="form-check">
+                @if (selectedContacts.Contains(contactsList[i]))
+                {
+                    <label class="form-check-label">
+                        <input asp-for="@selectedContacts" type="checkbox" value="@contactsList[i]" class="form-check-input" checked />
+                        @contactsList[i]
+                    </label>
+                }
+                else
+                {
                     <label class="form-check-label">
                         <input asp-for="@selectedContacts" type="checkbox" value="@contactsList[i]" class="form-check-input" />
                         @contactsList[i]
                     </label>
-                </div>
+                }
             </div>
         }
     </div>

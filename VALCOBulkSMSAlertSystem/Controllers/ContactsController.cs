@@ -67,22 +67,43 @@ namespace VALCOBulkSMSAlertSystem.Controllers
             return View(contacts);
         }
 
-        // GET: Contacts/SelectRecipients
+        public IActionResult SelectedRecipients()
+        {
+            List<Contacts> contactsList = _context.Contacts.ToList<Contacts>();
+            var contactNamesList = contactsList.Select(x => x.Name).ToList();
+
+            ViewData["ContactsList"] = contactNamesList;
+            ViewData["SelectedContacts"] = new List<string>();
+
+            return View();
+        }
+
+
+        /*// GET: Contacts/SelectRecipients
         public IActionResult SelectRecipients()
         {
             var contactsList = _context.Contacts.ToList();
             ViewData["ContactsList"] = contactsList;
             ViewData["SelectedContacts"] = new List<String>();
             return View();
-        }
+        }*/
 
         // POST: Contacts/SelectRecipients
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult SelectRecipients([Bind("SelectedContacts")] List<String> selectedContacts)
+        /*public IActionResult SelectRecipients([Bind("SelectedContacts")] List<String> selectedContacts)
         {
             return RedirectToAction("Create", "Messages", selectedContacts);
+        }*/
+        public IActionResult SelectRecipients([Bind("SelectedContacts")] List<string> selectedContacts)
+        {
+            if (selectedContacts != null)
+            {
+                TempData["SelectedContacts"] = string.Join(',', selectedContacts);
+            }
+            return RedirectToAction("Create", "Messages");
         }
+
 
         public async Task<List<Contacts>> GetContactsList(string[] recipientList)
         {
