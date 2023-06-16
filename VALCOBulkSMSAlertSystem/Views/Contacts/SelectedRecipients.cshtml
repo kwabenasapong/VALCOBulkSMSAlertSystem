@@ -1,0 +1,27 @@
+﻿
+@model List<string>
+
+@{
+    ViewData["Title"] = "SelectRecipients";
+    List<string> contactsList = ViewData["ContactsList"] as List<string>;
+    List<string> selectedContacts = ViewData["SelectedContacts"] as List<string>;
+}
+
+<h2>Select Recipients:</h2>
+
+<form method="post">
+    <div class="form-group row">
+        @for (int i = 0; i < contactsList.Count; i++)
+        {
+            <div class="col-sm-3">
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input asp-for="@selectedContacts" type="checkbox" value="@contactsList[i]" class="form-check-input" />
+                        @contactsList[i]
+                    </label>
+                </div>
+            </div>
+        }
+    </div>
+    <input type="submit" value="Select" class="btn btn-primary" />
+</form>

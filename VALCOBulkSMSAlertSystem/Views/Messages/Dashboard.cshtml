@@ -1,0 +1,32 @@
+﻿@model VALCOBulkSMSAlertSystem.Models.Messages;
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h1>Dashboard</h1>
+<div class="tab-container">
+    <div class="tab-buttons">
+        <button class="tab-button active" onclick="openTab(event, 'tab1')">Overview</button>
+        <button class="tab-button" onclick="openTab(event, 'tab2')">Analytics</button>
+        <button class="tab-button" onclick="openTab(event, 'tab3')">Messages</button>
+    </div>
+    <div class="tab-content-container">
+        <div id="tab1" class="tab-content">
+            <partial name="Overview.cshtml" />
+        </div>
+
+        <div id="tab2" class="tab-content">
+            <partial name="Analytics.cshtml" />
+        </div>
+
+        <div id="tab3" class="tab-content">
+            <partial name="MessagesTab.cshtml" />
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/dashboard.js" asp-append-version="true"></script>
+    <script src="~/js/messages.js" asp-append-version="true"></script>
+
+}

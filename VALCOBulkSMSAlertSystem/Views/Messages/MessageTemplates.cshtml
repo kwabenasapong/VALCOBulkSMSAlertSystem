@@ -1,0 +1,67 @@
+﻿@* @model IEnumerable<VALCOBulkSMSAlertSystem.Models.Messages> *@
+@model VALCOBulkSMSAlertSystem.Models.Messages;
+@{
+    ViewData["Title"] = "MessageTemplates";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Content)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Recipient)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th hidden>
+                @Html.DisplayNameFor(model => model.AspnetUsers)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @Html.DisplayFor(model => model.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Content)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Sender)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Recipient)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Date)
+            </td>
+            <td hidden>
+                @Html.DisplayFor(model => model.AspnetUsers)
+            </td>
+            @* <td>
+                <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@Model.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+            </td> *@
+        </tr>
+    </tbody>
+</table>
+
+<button id="createTemplateBtn" class="tab3-2-button btn btn-secondary" onclick="openInnerTab(event, 'tab3-2-1')">Create Template</button>
+

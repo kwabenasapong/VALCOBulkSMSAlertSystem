@@ -1,0 +1,26 @@
+﻿@model VALCOBulkSMSAlertSystem.Models.Messages;
+@{
+    ViewData["Title"] = "MessagesTab";
+}
+
+<p>User Messages Tab</p>
+<div class="tab3-container">
+    <div class="tab3-buttons">
+        <button class="tab3-button active" onclick="openInnerTab(event, 'tab3-1')">Create Message</button>
+        <button class="tab3-button" onclick="openInnerTab(event, 'tab3-2')">Message Template</button>
+        <button class="tab3-button" onclick="openInnerTab(event, 'tab3-3')">Message History</button>
+    </div>
+    <div id="tab3-1" class="tab3-content">
+        @* <partial name="CreateMessage.cshtml" />*@
+        <partial name="Create.cshtml" />
+    </div>
+    <div id="tab3-2" class="tab3-content">
+        <partial name="MessageTemplates.cshtml" />
+    </div>
+    <div id="tab3-2-1" class="tab3-2-content">
+        <partial name="Edit.cshtml" />
+    </div>
+    <div id="tab3-3" class="tab3-content">
+        <partial name="MessageHistory.cshtml" />
+    </div>
+</div>

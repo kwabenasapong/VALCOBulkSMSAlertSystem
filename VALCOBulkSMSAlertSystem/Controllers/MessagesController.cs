@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VALCOBulkSMSAlertSystem.Data;
 using VALCOBulkSMSAlertSystem.Models;
+using VALCOBulkSMSAlertSystem.Models.VALCOBulkSMSAlertSystem.Models;
 using VALCOBulkSMSAlertSystem.Services;
 
 namespace VALCOBulkSMSAlertSystem.Controllers
@@ -59,7 +55,7 @@ namespace VALCOBulkSMSAlertSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Content,Sender,Recipient,Status,Date,AspnetUsers")] Messages messages)
+        /*public async Task<IActionResult> Create([Bind("Id,Title,Content,Sender,Recipient,Status,Date,AspnetUsers")] Messages messages)
         {
             if (ModelState.IsValid)
             {                
@@ -72,7 +68,58 @@ namespace VALCOBulkSMSAlertSystem.Controllers
             }
 
             return View(messages);
+        }*/
+        public async Task<IActionResult> Create([Bind("Id,Title,Content,Sender,Recipient,Status,Date,AspnetUsers")] Messages messages, string[] recipients)
+        {
+            if (ModelState.IsValid)
+            {
+                messages.Date = DateTime.Now.ToString();
+                messages.Sender = User.Identity.Name;
+
+                var contacts = await GetContactsList(recipients);
+                if (contacts.Count == 0)
+                {
+                    ModelState.AddModelError("", "Please select at least one contact for sending this message.");
+                    return View(messages);
+                }
+
+                bool sendSuccess = true;
+                foreach (var contact in contacts)
+                {
+                    var msgStatus = await _hubtelSmsService.HubtelSmsServiceApi(contact.Phone, messages.Content);
+                    if (msgStatus.ToLowerInvariant() == "failed")
+                    {
+                        sendSuccess = false;
+                    }
+                }
+
+                messages.Status = sendSuccess ? "Sent" : "Failed";
+                _context.Add(messages);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(messages);
         }
+
+        public async Task<List<Contacts>> GetContactsList(string[] recipientList)
+        {
+            if (recipientList == null || recipientList.Length == 0)
+            {
+                return new List<Contacts>();
+            }
+            List<Contacts> contacts = new List<Contacts>();
+            foreach (string recipient in recipientList)
+            {
+                var contact = await _context.Contacts.FirstOrDefaultAsync(c => c.Phone == recipient);
+                if (contact != null)
+                {
+                    contacts.Add(contact);
+                }
+            }
+            return contacts;
+        }
+
 
         // GET: Messages/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -165,6 +212,52 @@ namespace VALCOBulkSMSAlertSystem.Controllers
         private bool MessagesExists(int id)
         {
           return (_context.Messages?.Any(e => e.Id == id)).GetValueOrDefault();
-        }        
+        }
+
+
+
+        // For Dashboard Views
+        public IActionResult Dashboard() => View();
+
+        public IActionResult Tab1(string subTab)
+        {
+            switch (subTab)
+            {
+                case "Overview":
+                    return View("Overview");
+                default:
+                    // Default to Overview view
+                    return View("Overview");
+            }
+        }
+
+        public IActionResult Tab2(string subTab)
+        {
+            switch (subTab)
+            {
+                case "Analytics":
+                    return View("Analytics");
+                default:
+                    // Default to Analytics view
+                    return View("Analytics");
+            }
+        }
+
+        public IActionResult Tab3(string subTab)
+        {
+            switch (subTab)
+            {
+                case "Create":
+                    return View("Create");
+                case "MessageTemplates":
+                    return View("MessageTemplates");
+                case "MessageHistory":
+                    return View("MessageHistory");
+                default:
+                    // Default to CreateMessage view
+                    return View("Create");
+            }
+        }
+
     }
 }

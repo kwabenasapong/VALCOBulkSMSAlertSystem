@@ -1,8 +1,103 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Hosting
+@using System.IO;
+
+@{
     ViewData["Title"] = "Home Page";
 }
-
+<section class="login-note">
+    <h1><a class="login-note-a" asp-area="" asp-controller="Home" asp-action="Index">&#x1F60A;VSMSAlert&#x2709;</a></h1>
+</section>
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welcome to the VALCO SMS Alert System</h1>
+    @* <p>This is the landing page of our SMS Alert System. Please login to access the system and start sending messages</p> *@
+
+    @{
+        var imagePath = "~/data/images/";
+        var imageCount = 3;
+    }
+
+    <div id="coverFlow">
+        @for (var i = 1; i <= imageCount; i++)
+        {
+            var imageName = $"image{i}.jpg";
+            var imageUrl = $"{imagePath}{imageName}";
+
+            <div class="cover">
+                <img src="@Url.Content(imageUrl)" alt="Image @(i + 1)">
+            </div>
+        }
+    </div>
+
+    <br />
+
+    <div>
+        @* @Html.ActionLink("Login", "Login", "Account", null,new { @class = "btn btn-primary"}) *@
+     
+            <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Login">Login</a>
+  
+
+    </div>
+    <br />
+    <br />
+    <section>
+        <h3>Learn how to use the SMS Alert System with this simple tutorial below:</h3>
+    </section>
+
 </div>
+
+<div class="tutorial-container">
+    <div class="tutorial-box">
+        <div class="tutorial-content">
+            <h3>Step 1: Login</h3>
+            <p>The Administrator will provide you with login credentials. Click on the "Login" button and enter your username and password in the provided fields. Click "Login" to access your account.</p>
+        </div>
+        <div class="arrow"></div>
+    </div>
+    <div class="tutorial-box">
+        <div class="tutorial-content">
+            <h3>Step 2: Dashboard</h3>
+            <p>After logging in, you will be directed to the dashboard. This is the central hub where you can manage your SMS alerts.</p>
+        </div>
+        <div class="arrow"></div>
+    </div>
+    <div class="tutorial-box">
+        <div class="tutorial-content">
+            <h3>Step 3: Admin Regulated Contacts</h3>
+            <p>The Contacts section is not visible. It is regulated by the Administrator. If you need to add or modify contacts, please reach out to the Administrator. They will assist you in updating your contact list as per your requirements.</p>
+        </div>
+        <div class="arrow"></div>
+    </div>
+    <div class="tutorial-box">
+        <div class="tutorial-content">
+            <h3>Step 4: Message Creation</h3>
+            <p>To send an SMS alert, navigate to the "Create Message" section. Enter the recipient's phone number and compose your message. You can also choose from predefined templates or personalize your message.</p>
+        </div>
+        <div class="arrow"></div>
+    </div>
+    <div class="tutorial-box">
+        <div class="tutorial-content">
+            <h3>Step 5: Message Templates</h3>
+            <p>In the "Message Templates" section, you can create and manage predefined message templates. These templates can be used for sending SMS alerts without the need to type the entire message every time. You can edit, delete, or create new templates as needed.</p>
+        </div>
+        <div class="arrow"></div>
+    </div>
+
+    <div class="tutorial-box">
+        <div class="tutorial-content">
+            <h3>Step 6: Message History</h3>
+            <p>In the "Message History" section, you can view a history of all the messages you have sent. This allows you to track the delivery status and review the content of each message.</p>
+        </div>
+        <div class="arrow"></div>
+    </div>
+    <div class="tutorial-box">
+        <div class="tutorial-content">
+            <h3>Step 7: Logout</h3>
+            <p>When you're done using the system, click on the "Logout" button to securely log out of your account.</p>
+        </div>
+    </div>
+</div>
+
+@*js script for coverflow image gallery*@
+@section Scripts {
+    <script src="~/js/site.js" asp-append-version="true"></script>
+}
