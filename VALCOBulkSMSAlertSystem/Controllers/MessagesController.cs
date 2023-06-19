@@ -11,11 +11,13 @@ namespace VALCOBulkSMSAlertSystem.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly HubtelSmsService _hubtelSmsService;
+        //private readonly ContactsService _contactsService;
 
-        public MessagesController(ApplicationDbContext context, HubtelSmsService hubtelSmsService)
+        public MessagesController(ApplicationDbContext context, HubtelSmsService hubtelSmsService, ContactsService contactsService)
         {
             _context = context;
             _hubtelSmsService = hubtelSmsService;
+            //_contactsService = contactsService;
         }
 
         // GET: Messages
@@ -55,39 +57,36 @@ namespace VALCOBulkSMSAlertSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        /*public async Task<IActionResult> Create([Bind("Id,Title,Content,Sender,Recipient,Status,Date,AspnetUsers")] Messages messages)
-        {
-            if (ModelState.IsValid)
-            {                
-                messages.Date = DateTime.Now.ToString();
-                messages.Sender = User.Identity.Name;
-                messages.Status = await _hubtelSmsService.HubtelSmsServiceApi(messages.Recipient, messages.Content);
-                _context.Add(messages);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-
-            return View(messages);
-        }*/
-        public async Task<IActionResult> Create([Bind("Id,Title,Content,Sender,Recipient,Status,Date,AspnetUsers")] Messages messages, List<string> contactsList = null)
+        public async Task<IActionResult> Create([Bind("Id,Title,Content,Sender,Recipient,Status,Date,AspnetUsers")] Messages messages)
         {
             if (ModelState.IsValid)
             {
                 messages.Date = DateTime.Now.ToString();
                 messages.Sender = User.Identity.Name;
+                
+                // Get single recipent from input form
+                if (messages.Recipient != null)
+                {
+                    var msgStatus = await _hubtelSmsService.HubtelSmsServiceApi(messages.Recipient, messages.Content);
+                    messages.Status = msgStatus.ToLowerInvariant() == "failed" ? "Failed" : "Sent";
+                    _context.Add(messages);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
 
-                //use ContactsController.GetContactsList() to get contacts
-                var contacts = await ContactsController.GetContactsList(contactsList);
-                if (contacts)
+                // Get phone numbers list from TempData
+                List<string>? phoneNumbersList = TempData["PhoneNumbersList"] as List<string>;
+
+                if (phoneNumbersList == null || phoneNumbersList.Count == 0)
                 {
                     ModelState.AddModelError("", "Please select at least one contact for sending this message.");
                     return View(messages);
                 }
 
                 bool sendSuccess = true;
-                foreach (var contact in contacts)
+                foreach (var phoneNumber in phoneNumbersList)
                 {
-                    var msgStatus = await _hubtelSmsService.HubtelSmsServiceApi(contact.Phone, messages.Content);
+                    var msgStatus = await _hubtelSmsService.HubtelSmsServiceApi(phoneNumber, messages.Content);
                     if (msgStatus.ToLowerInvariant() == "failed")
                     {
                         sendSuccess = false;
@@ -103,26 +102,6 @@ namespace VALCOBulkSMSAlertSystem.Controllers
             return View(messages);
         }
 
-        // GET: Messages/Create
-        /*public async Task<List<Contacts>> GetContactsList(string[] recipientList)
-        {
-            // await for contacts to be loaded
-            var contacts = await GetContacts(recipientList);
-            if (recipientList == null || recipientList.Length == 0)
-            {
-                return new List<Contacts>();
-            }
-            List<Contacts> contacts = new List<Contacts>();
-            foreach (string recipient in recipientList)
-            {
-                var contact = await _context.Contacts.FirstOrDefaultAsync(c => c.Phone == recipient);
-                if (contact != null)
-                {
-                    contacts.Add(contact);
-                }
-            }
-            return contacts;
-        }*/
 
 
         // GET: Messages/Edit/5

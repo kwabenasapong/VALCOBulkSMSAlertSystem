@@ -22,6 +22,9 @@ builder.Services.AddTransient<HubtelSmsService>(x => new HubtelSmsService(
     builder.Configuration["HubtelSms:ClientSecret"],
     builder.Configuration["HubtelSms:FromName"]));
 
+builder.Services.AddTransient<ContactsService>();
+builder.Services.AddHttpContextAccessor();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

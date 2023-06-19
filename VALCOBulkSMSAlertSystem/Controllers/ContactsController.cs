@@ -110,39 +110,36 @@ namespace VALCOBulkSMSAlertSystem.Controllers
             // Keep TempData["SelectedContacts"] for use in next request
             TempData.Keep("SelectedContacts");
 
+            // Get phone numbers of selected contacts and save to TempData
+            GetContactsList();
+            if (TempData["PhoneNumbersList"] == null)
+            {
+                return Problem("TempData['PhoneNumbersList'] is null.");
+            }
+            
             return RedirectToAction("Index", "Messages");
 
             
-        }
+        }   
 
-        /*partial void GetContactsList(ref List<string> contactsList)
+        // Get Phone numbers of selected contacts and return as a List<string> and save to TempData
+        public List<string> GetContactsList()
         {
             // Get selected contacts from TempData
             var selectedContacts = TempData["SelectedContacts"] as string[];
-            if (selectedContacts != null)
-            {
-                contactsList = selectedContacts.ToList();
-            }
+            // Get phone numbers of selected contacts
+            var contactsList = _context.Contacts.ToList<Contacts>();
+            var phoneNumbersList = contactsList.Where(x => selectedContacts.Contains(x.Name)).Select(x => x.Phone).ToList();
 
-        }*/
+            // Save phone numbers to TempData
+            TempData["PhoneNumbersList"] = phoneNumbersList;
 
-        
+            // Keep TempData["PhoneNumbersList"] for use in next request
+            TempData.Keep("PhoneNumbersList");
 
-        public async Task<List<Contacts>> GetContactsList(List<string>? contactsList)
-        {
-            // Get selected contacts from TempData
-            if (TempData["SelectedContacts"] is string[] selectedContacts)
-            {
-                contactsList = selectedContacts.ToList();
-            }
-
-            // Get contacts from database based on selected contacts from TempData
-          var allContacts = await _context.Contacts.ToListAsync();
-            var contacts = from c in allContacts
-                           where contactsList.Contains(c.Name)
-                           select c;
-            return contacts.ToList();
-        }   
+            return phoneNumbersList;
+        }
+         
 
 
         // GET: Contacts/Edit/5
