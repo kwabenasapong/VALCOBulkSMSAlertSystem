@@ -69,15 +69,16 @@ namespace VALCOBulkSMSAlertSystem.Controllers
 
             return View(messages);
         }*/
-        public async Task<IActionResult> Create([Bind("Id,Title,Content,Sender,Recipient,Status,Date,AspnetUsers")] Messages messages, string[] recipients)
+        public async Task<IActionResult> Create([Bind("Id,Title,Content,Sender,Recipient,Status,Date,AspnetUsers")] Messages messages, List<string> contactsList = null)
         {
             if (ModelState.IsValid)
             {
                 messages.Date = DateTime.Now.ToString();
                 messages.Sender = User.Identity.Name;
 
-                var contacts = await GetContactsList(recipients);
-                if (contacts.Count == 0)
+                //use ContactsController.GetContactsList() to get contacts
+                var contacts = await ContactsController.GetContactsList(contactsList);
+                if (contacts)
                 {
                     ModelState.AddModelError("", "Please select at least one contact for sending this message.");
                     return View(messages);
@@ -102,8 +103,11 @@ namespace VALCOBulkSMSAlertSystem.Controllers
             return View(messages);
         }
 
-        public async Task<List<Contacts>> GetContactsList(string[] recipientList)
+        // GET: Messages/Create
+        /*public async Task<List<Contacts>> GetContactsList(string[] recipientList)
         {
+            // await for contacts to be loaded
+            var contacts = await GetContacts(recipientList);
             if (recipientList == null || recipientList.Length == 0)
             {
                 return new List<Contacts>();
@@ -118,7 +122,7 @@ namespace VALCOBulkSMSAlertSystem.Controllers
                 }
             }
             return contacts;
-        }
+        }*/
 
 
         // GET: Messages/Edit/5

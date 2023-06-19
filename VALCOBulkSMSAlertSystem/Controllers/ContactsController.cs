@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 using VALCOBulkSMSAlertSystem.Data;
+using VALCOBulkSMSAlertSystem.Models;
 using VALCOBulkSMSAlertSystem.Models.VALCOBulkSMSAlertSystem.Models;
 
 namespace VALCOBulkSMSAlertSystem.Controllers
@@ -13,6 +10,7 @@ namespace VALCOBulkSMSAlertSystem.Controllers
     public class ContactsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        //public static ITempDataDictionary TempData { get; set; }
 
         public ContactsController(ApplicationDbContext context)
         {
@@ -20,12 +18,28 @@ namespace VALCOBulkSMSAlertSystem.Controllers
         }
 
         // GET: Contacts
-        public async Task<IActionResult> Index()
+        /*public async Task<IActionResult> Index()
         {
               return _context.Contacts != null ? 
                           View(await _context.Contacts.ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.Contacts'  is null.");
+        }*/
+        public async Task<IActionResult> Index()
+        {
+            if (_context.Contacts == null)
+            {
+                return Problem("Entity set 'ApplicationDbContext.Contacts' is null.");
+            }
+
+            var contactsList = await _context.Contacts.ToListAsync();
+            var viewModel = new ContactsIndexViewModel
+            {
+                ContactsList = contactsList,
+                SelectedContacts = new List<string>()
+            };
+            return View(viewModel);
         }
+
 
         // GET: Contacts/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -67,6 +81,7 @@ namespace VALCOBulkSMSAlertSystem.Controllers
             return View(contacts);
         }
 
+        // GET: Contacts/SelectRecipients
         public IActionResult SelectedRecipients()
         {
             List<Contacts> contactsList = _context.Contacts.ToList<Contacts>();
@@ -79,45 +94,59 @@ namespace VALCOBulkSMSAlertSystem.Controllers
         }
 
 
-        /*// GET: Contacts/SelectRecipients
-        public IActionResult SelectRecipients()
-        {
-            var contactsList = _context.Contacts.ToList();
-            ViewData["ContactsList"] = contactsList;
-            ViewData["SelectedContacts"] = new List<String>();
-            return View();
-        }*/
-
         // POST: Contacts/SelectRecipients
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        /*public IActionResult SelectRecipients([Bind("SelectedContacts")] List<String> selectedContacts)
-        {
-            return RedirectToAction("Create", "Messages", selectedContacts);
-        }*/
+        [ValidateAntiForgeryToken]        
         public IActionResult SelectRecipients([Bind("SelectedContacts")] List<string> selectedContacts)
         {
             if (selectedContacts != null)
             {
                 TempData["SelectedContacts"] = string.Join(',', selectedContacts);
             }
-            return RedirectToAction("Create", "Messages");
+            // Convert to string array for use in GetContactsList() method
+            var recipientList = TempData["SelectedContacts"].ToString().Split(',');
+            TempData["SelectedContacts"] = recipientList;
+
+            // Keep TempData["SelectedContacts"] for use in next request
+            TempData.Keep("SelectedContacts");
+
+            return RedirectToAction("Index", "Messages");
+
+            
         }
 
-
-        public async Task<List<Contacts>> GetContactsList(string[] recipientList)
+        /*partial void GetContactsList(ref List<string> contactsList)
         {
-            if (recipientList == null || recipientList.Length == 0)
+            // Get selected contacts from TempData
+            var selectedContacts = TempData["SelectedContacts"] as string[];
+            if (selectedContacts != null)
             {
-                return new List<Contacts>();
+                contactsList = selectedContacts.ToList();
             }
-            var contacts = await _context.Contacts.Where(c => recipientList.Contains(c.Phone)).ToListAsync();
-            return contacts;
-        }
+
+        }*/
+
+        
+
+        public async Task<List<Contacts>> GetContactsList(List<string>? contactsList)
+        {
+            // Get selected contacts from TempData
+            if (TempData["SelectedContacts"] is string[] selectedContacts)
+            {
+                contactsList = selectedContacts.ToList();
+            }
+
+            // Get contacts from database based on selected contacts from TempData
+          var allContacts = await _context.Contacts.ToListAsync();
+            var contacts = from c in allContacts
+                           where contactsList.Contains(c.Name)
+                           select c;
+            return contacts.ToList();
+        }   
 
 
-            // GET: Contacts/Edit/5
-            public async Task<IActionResult> Edit(int? id)
+        // GET: Contacts/Edit/5
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Contacts == null)
             {

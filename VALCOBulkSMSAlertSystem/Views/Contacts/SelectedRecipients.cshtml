@@ -1,4 +1,4 @@
-﻿@model List<string>
+﻿@* @model List<string>
 
 @{
     ViewData["Title"] = "SelectRecipients";
@@ -32,3 +32,43 @@
     </div>
     <input type="submit" value="Select" class="btn btn-primary" />
 </form>
+ *@
+
+@model List<string>
+@{
+    ViewData["Title"] = "SelectRecipients";
+    List<string> contactsList = ViewData["ContactsList"] as List<string>;
+    List<string> selectedContacts = ViewData["SelectedContacts"] as List<string>;
+}
+
+<h2>Select Recipients:</h2>
+
+<form method="post" asp-controller="Contacts" asp-action="SelectRecipients">
+    <div class="form-group row">
+        @{
+            int i = 0;
+            foreach (var contact in contactsList)
+            {
+                var isChecked = selectedContacts != null && selectedContacts.Contains(contactsList[i]);
+                <div class="col-sm-3">
+                    <label class="form-check-label">
+                        <input asp-for="@isChecked" type="checkbox"
+                               value="@contact" class="form-check-input"
+                               name="selectedContacts[]" hidden />
+                        <input type="checkbox"
+                               value="@contact" class="form-check-input"
+                               onchange="this.previousSibling.checked = !this.previousSibling.checked"
+                        @if (isChecked)
+                        {
+                            <text>checked</text>
+                        }
+                        /> @contact
+                    </label>
+                </div>
+                i++;
+            }
+        }
+    </div>
+    <input type="submit" value="Select" class="btn btn-primary" />
+</form>
+

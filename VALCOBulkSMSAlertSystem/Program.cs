@@ -46,6 +46,10 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+/*app.MapControllerRoute(
+    name: "SelectedRecipients",
+    pattern: "Contacts/SelectedRecipients",
+    defaults: new { controller = "Contacts", action = "SelectedRecipients" });*/
 app.MapRazorPages();
 
 app.Run();
