@@ -94,6 +94,10 @@ namespace VALCOBulkSMSAlertSystem.Controllers
                     }
                 }
 
+                // convert phone numbers list to string and save to database
+                string phoneNumbersString = string.Join(", ", phoneNumbersList);
+                messages.Recipient = phoneNumbersString;
+
                 messages.Status = sendSuccess ? "Sent" : "Failed";
                 _context.Add(messages);
                 await _context.SaveChangesAsync();
