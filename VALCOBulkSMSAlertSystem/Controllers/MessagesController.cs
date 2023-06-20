@@ -75,7 +75,8 @@ namespace VALCOBulkSMSAlertSystem.Controllers
                 }
 
                 // Get phone numbers list from TempData
-                List<string>? phoneNumbersList = TempData["PhoneNumbersList"] as List<string>;
+                string[]? phoneNumbersArray = TempData["PhoneNumbersList"] as string[];
+                List<string>? phoneNumbersList = phoneNumbersArray?.ToList();
 
                 if (phoneNumbersList == null || phoneNumbersList.Count == 0)
                 {
