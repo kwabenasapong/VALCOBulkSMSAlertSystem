@@ -6,6 +6,7 @@ using VALCOBulkSMSAlertSystem.Areas.Identity.Data;
 using Microsoft.AspNetCore.Authorization;
 using VALCOBulkSMSAlertSystem.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using IAdminAuthorizationService = VALCOBulkSMSAlertSystem.Authorization.IAdminAuthorizationService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,7 +42,11 @@ builder.Services.AddTransient<HubtelSmsService>(x => new HubtelSmsService(
     builder.Configuration["HubtelSms:FromName"]));
 
 builder.Services.AddTransient<ContactsService>();
+
 builder.Services.AddHttpContextAccessor();
+
+// Register the Authorization service and policy
+builder.Services.AddScoped<IAdminAuthorizationService, AuthorizationService>();
 
 var app = builder.Build();
 

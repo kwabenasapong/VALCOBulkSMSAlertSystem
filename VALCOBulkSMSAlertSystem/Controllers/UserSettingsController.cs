@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VALCOBulkSMSAlertSystem.Areas.Identity.Data;
 using VALCOBulkSMSAlertSystem.Data;
 using VALCOBulkSMSAlertSystem.Models;
+using static VALCOBulkSMSAlertSystem.Authorization.Operations;
 
 namespace VALCOBulkSMSAlertSystem.Controllers
 {
@@ -26,6 +24,21 @@ namespace VALCOBulkSMSAlertSystem.Controllers
         // GET: UserSettings
         public async Task<IActionResult> Index()
         {
+            /*//Authorize for only Admins to view this page and all subpages
+            //if a user tries to access it bring up access denied page
+            if (!User.IsInRole(Constants.AdministratorsRole))
+            {
+                return RedirectToAction("AccessDenied", "Account");
+            }*/
+
+            // use AuthorizeAdminsOnly() method to authorize only admins to view this page
+            IActionResult? result = AuthorizeAdminsOnly();
+
+            if (result != null)
+            {
+                return result;
+            }
+
             // Return a list of all users in the database
             var userSettings = new UserSettings
             {                
@@ -45,6 +58,14 @@ namespace VALCOBulkSMSAlertSystem.Controllers
         // GET: UserSettings/Details/5
         public async Task<IActionResult> Details(string id)
         {
+            // use AuthorizeAdminsOnly() method to authorize only admins to view this page
+            IActionResult? result = AuthorizeAdminsOnly();
+
+            if (result != null)
+            {
+                return result;
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -128,6 +149,14 @@ namespace VALCOBulkSMSAlertSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("Id,UserName,Email,PhoneNumber")] VALCOUser user)
         {
+            // use AuthorizeAdminsOnly() method to authorize only admins to view this page
+            IActionResult? result = AuthorizeAdminsOnly();
+
+            if (result != null)
+            {
+                return result;
+            }
+
             if (id != user.Id)
             {
                 return NotFound();
@@ -166,6 +195,14 @@ namespace VALCOBulkSMSAlertSystem.Controllers
         // GET: User/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
+            // use AuthorizeAdminsOnly() method to authorize only admins to view this page
+            IActionResult? result = AuthorizeAdminsOnly();
+
+            if (result != null)
+            {
+                return result;
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -201,5 +238,17 @@ namespace VALCOBulkSMSAlertSystem.Controllers
         {
             return _context.Users.Any(e => e.Id == id);
         }
+
+        // Method to deny access to non-admins to the UserSettings page
+        private IActionResult? AuthorizeAdminsOnly()
+        {
+            if (!User.IsInRole(Constants.AdministratorsRole))
+            {
+                return RedirectToAction("AccessDenied", "Account");
+            }
+
+            return null; // Return null if the user is authorized as an administrator
+        }
+
     }
 }

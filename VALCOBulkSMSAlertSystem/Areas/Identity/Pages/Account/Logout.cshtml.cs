@@ -26,6 +26,10 @@ namespace VALCOBulkSMSAlertSystem.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPost(string returnUrl = null)
         {
+            // delete all TempData values to prevent the user
+            // from using the back button to navigate to a previous page
+            //TempData.Clear();
+
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
             if (returnUrl != null)
