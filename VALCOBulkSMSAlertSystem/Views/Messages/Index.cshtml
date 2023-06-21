@@ -30,9 +30,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Date)
             </th>
-            <th hidden>
+            @*<th hidden>
                 @Html.DisplayNameFor(model => model.AspnetUsers)
-            </th>
+            </th>*@
             <th></th>
         </tr>
     </thead>
@@ -57,9 +57,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
-            <td hidden>
+            @*<td hidden>
                 @Html.DisplayFor(modelItem => item.AspnetUsers)
-            </td>
+            </td>*@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |

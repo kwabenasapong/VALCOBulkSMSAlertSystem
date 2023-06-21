@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using VALCOBulkSMSAlertSystem.Data;
 using VALCOBulkSMSAlertSystem.Services;
 using VALCOBulkSMSAlertSystem.Areas.Identity.Data;
+using Microsoft.AspNetCore.Authorization;
+using VALCOBulkSMSAlertSystem.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,10 +15,25 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<VALCOUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<VALCOUser>(options => 
+    options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddControllersWithViews();
+
+// Add Authorization Policy
+builder.Services.AddControllers(config =>
+{
+    var policy = new AuthorizationPolicyBuilder()
+                     .RequireAuthenticatedUser()
+                     .Build();
+    config.Filters.Add(new AuthorizeFilter(policy));
+});
+
+// Register Authorization handlers
+builder.Services.AddScoped<IAuthorizationHandler, IsOwnerAuthorizationHandler>();
+builder.Services.AddScoped<IAuthorizationHandler, AdministratorsAuthorizationHandler>();
 
 builder.Services.AddTransient<HubtelSmsService>(x => new HubtelSmsService(
     builder.Configuration["HubtelSms:ClientId"],
@@ -26,6 +44,21 @@ builder.Services.AddTransient<ContactsService>();
 builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
+
+// //Add Role-based Authorization to the project for SeedData
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<ApplicationDbContext>();
+    context.Database.Migrate();
+    // requires using Microsoft.Extensions.Configuration;
+    // Set password with the Secret Manager tool.
+    // dotnet user-secrets set SeedUserPW <pw>
+
+    var testUserPw = builder.Configuration.GetValue<string>("SeedUserPW");
+
+    await SeedData.Initialize(services, testUserPw);
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

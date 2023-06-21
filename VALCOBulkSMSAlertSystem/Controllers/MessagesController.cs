@@ -1,9 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using VALCOBulkSMSAlertSystem.Areas.Identity.Data;
 using VALCOBulkSMSAlertSystem.Data;
 using VALCOBulkSMSAlertSystem.Models;
 using VALCOBulkSMSAlertSystem.Models.VALCOBulkSMSAlertSystem.Models;
 using VALCOBulkSMSAlertSystem.Services;
+using static VALCOBulkSMSAlertSystem.Authorization.Operations;
 
 namespace VALCOBulkSMSAlertSystem.Controllers
 {
@@ -11,21 +15,51 @@ namespace VALCOBulkSMSAlertSystem.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly HubtelSmsService _hubtelSmsService;
+        protected IAuthorizationService AuthorizationService { get; }
+        protected UserManager<VALCOUser> UserManager { get; }
+
         //private readonly ContactsService _contactsService;
 
-        public MessagesController(ApplicationDbContext context, HubtelSmsService hubtelSmsService, ContactsService contactsService)
+        public MessagesController(
+            ApplicationDbContext context, 
+            HubtelSmsService hubtelSmsService, 
+            ContactsService contactsService, 
+            IAuthorizationService authorizationService,
+            UserManager<VALCOUser> userManager)
         {
             _context = context;
             _hubtelSmsService = hubtelSmsService;
+            AuthorizationService = authorizationService;
+            UserManager = userManager;
             //_contactsService = contactsService;
         }
+
+        public IList<Messages> Contact { get; set; }
 
         // GET: Messages
         public async Task<IActionResult> Index()
         {
-              return _context.Messages != null ? 
-                          View(await _context.Messages.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Messages'  is null.");
+            // Authorization: check if user is authorized to see list of messages
+            var messages = from m in _context.Messages
+                           select m;
+
+            if (messages == null)
+            {
+                return NotFound();
+            }
+
+            var isAuthorized = User.IsInRole(Constants.AdministratorsRole);
+
+            var currentUserId = UserManager.GetUserId(User);
+
+            // Only messages written by the User will be displayed
+            if (!isAuthorized)
+            {
+                messages = messages.Where(m => m.UserID == currentUserId);
+                return View(await messages.ToListAsync());
+            }
+
+            return View(await messages.ToListAsync());
         }
 
         // GET: Messages/Details/5
@@ -61,6 +95,18 @@ namespace VALCOBulkSMSAlertSystem.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Authorization: check if user is authorized to create messages
+                messages.UserID = UserManager.GetUserId(User);
+
+                var isAuthorized = await AuthorizationService.AuthorizeAsync(
+                                                            User, messages,
+                                                            MessagesOperations.Create);
+
+                if (!isAuthorized.Succeeded)
+                {
+                    return Forbid();
+                }
+
                 messages.Date = DateTime.Now.ToString();
                 messages.Sender = User.Identity.Name;
                 
@@ -76,7 +122,7 @@ namespace VALCOBulkSMSAlertSystem.Controllers
 
                 // Get phone numbers list from TempData
                 string[]? phoneNumbersArray = TempData["PhoneNumbersList"] as string[];
-                List<string> phoneNumbersList = phoneNumbersArray?.ToList();
+                List<string>? phoneNumbersList = phoneNumbersArray?.ToList();
 
                 if (phoneNumbersList == null || phoneNumbersList.Count == 0)
                 {

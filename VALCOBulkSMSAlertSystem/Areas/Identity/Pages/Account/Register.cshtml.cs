@@ -22,6 +22,7 @@ using VALCOBulkSMSAlertSystem.Areas.Identity.Data;
 
 namespace VALCOBulkSMSAlertSystem.Areas.Identity.Pages.Account
 {
+    [AllowAnonymous]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<VALCOUser> _signInManager;

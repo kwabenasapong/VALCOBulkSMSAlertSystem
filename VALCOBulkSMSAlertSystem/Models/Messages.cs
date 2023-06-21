@@ -10,7 +10,7 @@
         public string? Status { get; set; }
         public string? Date { get; set; } = System.DateTime.Now.ToString();
 
-        //Foreign Key for the IdentityUser
-        public string? AspnetUsers { get; set; }
+        //Foreign Key for the VALCOUser UserId
+        public string? UserID { get; set; }
     }
 }
