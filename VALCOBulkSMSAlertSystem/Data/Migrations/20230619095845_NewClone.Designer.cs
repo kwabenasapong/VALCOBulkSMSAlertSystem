@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VALCOBulkSMSAlertSystem.Data;
 
@@ -11,9 +12,11 @@ using VALCOBulkSMSAlertSystem.Data;
 namespace VALCOBulkSMSAlertSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230619095845_NewClone")]
+    partial class NewClone
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -211,9 +214,6 @@ namespace VALCOBulkSMSAlertSystem.Data.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<string>("UserSettingsId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -223,8 +223,6 @@ namespace VALCOBulkSMSAlertSystem.Data.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("UserSettingsId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -236,6 +234,9 @@ namespace VALCOBulkSMSAlertSystem.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AspnetUsers")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
@@ -255,9 +256,6 @@ namespace VALCOBulkSMSAlertSystem.Data.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserID")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("VALCOUserId")
                         .HasColumnType("nvarchar(450)");
 
@@ -266,16 +264,6 @@ namespace VALCOBulkSMSAlertSystem.Data.Migrations
                     b.HasIndex("VALCOUserId");
 
                     b.ToTable("Messages");
-                });
-
-            modelBuilder.Entity("VALCOBulkSMSAlertSystem.Models.UserSettings", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserSettings");
                 });
 
             modelBuilder.Entity("VALCOBulkSMSAlertSystem.Models.VALCOBulkSMSAlertSystem.Models.Contacts", b =>
@@ -350,13 +338,6 @@ namespace VALCOBulkSMSAlertSystem.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("VALCOBulkSMSAlertSystem.Areas.Identity.Data.VALCOUser", b =>
-                {
-                    b.HasOne("VALCOBulkSMSAlertSystem.Models.UserSettings", null)
-                        .WithMany("VALCOUsers")
-                        .HasForeignKey("UserSettingsId");
-                });
-
             modelBuilder.Entity("VALCOBulkSMSAlertSystem.Models.Messages", b =>
                 {
                     b.HasOne("VALCOBulkSMSAlertSystem.Areas.Identity.Data.VALCOUser", null)
@@ -367,11 +348,6 @@ namespace VALCOBulkSMSAlertSystem.Data.Migrations
             modelBuilder.Entity("VALCOBulkSMSAlertSystem.Areas.Identity.Data.VALCOUser", b =>
                 {
                     b.Navigation("UserMessages");
-                });
-
-            modelBuilder.Entity("VALCOBulkSMSAlertSystem.Models.UserSettings", b =>
-                {
-                    b.Navigation("VALCOUsers");
                 });
 #pragma warning restore 612, 618
         }

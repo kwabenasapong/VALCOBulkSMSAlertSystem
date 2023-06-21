@@ -21,5 +21,6 @@ namespace VALCOBulkSMSAlertSystem.Data
         }
         public DbSet<VALCOBulkSMSAlertSystem.Models.Messages> Messages { get; set; } = default!;
         public DbSet<VALCOBulkSMSAlertSystem.Models.VALCOBulkSMSAlertSystem.Models.Contacts> Contacts { get; set; } = default!;
+        public DbSet<VALCOBulkSMSAlertSystem.Models.UserSettings> UserSettings { get; set; } = default!;
     }
 }
