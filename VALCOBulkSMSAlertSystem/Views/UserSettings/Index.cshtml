@@ -6,13 +6,13 @@
     @Html.ActionLink("Create New", "Create")
 </p>*@
 
-<table>
+<table class="table">
     <thead>
         <tr>
             <th>Username</th>
             <th>Email</th>
-            @*<th>Messages</th>
-            <th>Phone Number</th>*@
+            @*<th>No. of Messages</th>
+            <th>Last Message Sent</th>*@
             <th>Actions</th>
             <!-- Add more columns for additional user properties -->
         </tr>
@@ -23,8 +23,8 @@
             <tr>
                 <td>@user.UserName</td>
                 <td>@user.Email</td>
-                @*<td>@user.UserMessages</td>
-                <td>@user.PhoneNumber</td>*@
+                @*<td>@user.UserMessages.Count()</td>
+                <td>@user.UserMessages.LastOrDefault()</td>*@
                 <td>
                     @*<a asp-action="Edit" asp-route-id="@user.Id">Edit</a> |*@
                     <a asp-action="Details" asp-route-id="@user.Id">Details</a> |

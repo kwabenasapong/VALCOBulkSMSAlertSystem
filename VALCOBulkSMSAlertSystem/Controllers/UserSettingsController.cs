@@ -250,5 +250,16 @@ namespace VALCOBulkSMSAlertSystem.Controllers
             return null; // Return null if the user is authorized as an administrator
         }
 
+        /*// Method to get the current users messages for the Index ViewData
+        private async Task<List<Messages>> GetCurrentUserMessages()
+        {
+            // Get the current user
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            // Get the current user's messages
+            var currentUserMessages = await _context.Messages.Where(m => m.UserID == currentUser.Id).ToListAsync();
+
+            return currentUserMessages;
+        }*/
     }
 }

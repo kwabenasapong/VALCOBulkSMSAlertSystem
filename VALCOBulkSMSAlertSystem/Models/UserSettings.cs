@@ -6,7 +6,11 @@ namespace VALCOBulkSMSAlertSystem.Models
     {
         public string? Id { get; set; }
 
-        public IEnumerable<VALCOUser>? VALCOUsers { get; set; }
-       
+        public IEnumerable<VALCOUser> VALCOUsers { get; set; } = new List<VALCOUser>();
+
+        //Use the GetCurrentUserMessages method in the
+        //Controllers/UserSettingsController.cs file to get the user messages
+        
+       /*var VALCOUsers.Messages = await GetCurrentUserMessages();*/
     }
 }
