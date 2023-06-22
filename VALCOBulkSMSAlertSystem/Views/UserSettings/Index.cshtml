@@ -6,7 +6,7 @@
     @Html.ActionLink("Create New", "Create")
 </p>*@
 
-<table>
+<table class="table">
     <thead>
         <tr>
             <th>Username</th>
@@ -26,9 +26,11 @@
                 @*<td>@user.UserMessages</td>
                 <td>@user.PhoneNumber</td>*@
                 <td>
+                    <div style="display: inline-flex; align-items: center;">
                     @*<a asp-action="Edit" asp-route-id="@user.Id">Edit</a> |*@
-                    <a asp-action="Details" asp-route-id="@user.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@user.Id">Delete</a>
+                        <a class="btn btn-primary" style="margin-right: 10px;" asp-action="Details" asp-route-id="@user.Id">Details</a>
+                        <a class="btn btn-primary" asp-action="Delete" asp-route-id="@user.Id">Delete</a>
+                    </div>
                 </td>
                 <!-- Add more columns for additional user properties -->
             </tr>

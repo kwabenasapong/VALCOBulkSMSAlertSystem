@@ -117,7 +117,7 @@ namespace VALCOBulkSMSAlertSystem.Controllers
                 return Problem("TempData['PhoneNumbersList'] is null.");
             }
             
-            return RedirectToAction("Index", "Messages");
+            return RedirectToAction("Create", "Messages");
 
             
         }   

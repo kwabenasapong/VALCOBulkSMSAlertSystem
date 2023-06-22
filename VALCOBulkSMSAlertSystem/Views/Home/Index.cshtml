@@ -31,14 +31,10 @@
     <br />
 
     <div>   
-        @if (User.Identity.IsAuthenticated)
+        @if (User.Identity.IsAuthenticated == null)
         {
             <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
-        }
-        else
-        {
-            <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Login">Login</a>
-        }
+        }        
     </div>
     <br />
     <br />
@@ -58,26 +54,26 @@
     </div>
     <div class="tutorial-box">
         <div class="tutorial-content">
-            <h3>Step 2: Dashboard</h3>
-            <p>After logging in, you will be directed to the dashboard. This is the central hub where you can manage your SMS alerts.</p>
+            <h3>Step 2: Navigation</h3>
+            <p>After logging in, you will be directed to the Landing Page. In the Navigation Bar you will now have access to create contacts and send messages via the respective menus.</p>
         </div>
         <div class="arrow"></div>
     </div>
     <div class="tutorial-box">
         <div class="tutorial-content">
-            <h3>Step 3: Admin Regulated Contacts</h3>
-            <p>The Contacts section is not visible. It is regulated by the Administrator. If you need to add or modify contacts, please reach out to the Administrator. They will assist you in updating your contact list as per your requirements.</p>
+            <h3>Step 3: Contacts</h3>
+            <p>The Contacts section is visible to all users. Here you can add, edit, delete and select contacts you want to send messages to.</p>
         </div>
         <div class="arrow"></div>
     </div>
     <div class="tutorial-box">
         <div class="tutorial-content">
-            <h3>Step 4: Message Creation</h3>
-            <p>To send an SMS alert, navigate to the "Create Message" section. Enter the recipient's phone number and compose your message. You can also choose from predefined templates or personalize your message.</p>
+            <h3>Step 4: Messages</h3>
+            <p>To send an SMS alert, navigate to the "Messages" section and select create message. Compose your message in the content and title your message. Then either enter a recipient's phone number or select contacts. Finally click on Send Message to send your message</p>
         </div>
         <div class="arrow"></div>
     </div>
-    <div class="tutorial-box">
+    @* <div class="tutorial-box">
         <div class="tutorial-content">
             <h3>Step 5: Message Templates</h3>
             <p>In the "Message Templates" section, you can create and manage predefined message templates. These templates can be used for sending SMS alerts without the need to type the entire message every time. You can edit, delete, or create new templates as needed.</p>
@@ -91,10 +87,10 @@
             <p>In the "Message History" section, you can view a history of all the messages you have sent. This allows you to track the delivery status and review the content of each message.</p>
         </div>
         <div class="arrow"></div>
-    </div>
+    </div> *@
     <div class="tutorial-box">
         <div class="tutorial-content">
-            <h3>Step 7: Logout</h3>
+            <h3>Step 5: Logout</h3>
             <p>When you're done using the system, click on the "Logout" button to securely log out of your account.</p>
         </div>
     </div>
