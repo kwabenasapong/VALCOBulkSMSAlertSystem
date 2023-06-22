@@ -11,8 +11,8 @@
         <tr>
             <th>Username</th>
             <th>Email</th>
-            @*<th>Messages</th>
-            <th>Phone Number</th>*@
+            @*<th>No. of Messages</th>
+            <th>Last Message Sent</th>*@
             <th>Actions</th>
             <!-- Add more columns for additional user properties -->
         </tr>
@@ -23,8 +23,8 @@
             <tr>
                 <td>@user.UserName</td>
                 <td>@user.Email</td>
-                @*<td>@user.UserMessages</td>
-                <td>@user.PhoneNumber</td>*@
+                @*<td>@user.UserMessages.Count()</td>
+                <td>@user.UserMessages.LastOrDefault()</td>*@
                 <td>
                     <div style="display: inline-flex; align-items: center;">
                     @*<a asp-action="Edit" asp-route-id="@user.Id">Edit</a> |*@
