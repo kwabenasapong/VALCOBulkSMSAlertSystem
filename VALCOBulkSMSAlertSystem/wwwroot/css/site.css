@@ -717,7 +717,8 @@ textarea.form-control {
 }
 
 .btn-secondary {
-    background-color: var(--secondary-color);
+    background-color: rebeccapurple;
+    ;
 }
 
 .btn:focus,
@@ -731,6 +732,40 @@ textarea.form-control {
 .text-right {
     text-align: right;
     margin-top: 10px;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: rebeccapurple;
+}
+
+.nav-link {
+    display: block;
+    padding: .5rem 1rem;
+    color: mediumpurple;
+    text-decoration: none;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
+}
+
+.form-control:disabled, .form-control[readonly] {
+    background-color: palegoldenrod;
+    opacity: 1;
+}
+
+.text-dark_2 {
+    --bs-text-opacity: 1;
+    color: yellow;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: yellow;
+}
+
+.table {
+    --bs-table-bg: #0d2bfd08;
+    margin-bottom: 4rem;
+    color: #68068f;
+    border-color: #dfae15;
 }
 
 
