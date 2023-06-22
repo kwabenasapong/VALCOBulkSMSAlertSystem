@@ -55,16 +55,14 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Contacts</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
 
-<div>    
-    <a asp-area="" asp-controller="Contacts" asp-action="SelectedRecipients">
-        Selected Recipients
-    </a>
+<div>
+    <h4>Select a contact(s) to a send message(s)</h4>
 </div>
 
 @if (Model.SelectedContacts != null && Model.SelectedContacts.Count > 0)
@@ -78,11 +76,14 @@
     </ul>
 }
 
-<form method="post" asp-controller="Contacts" asp-action="SelectRecipients"> @*Post to URL: *@
+<form method="post" asp-controller="Contacts" asp-action="SelectRecipients">
+    @*Post to URL: *@
     <table class="table">
         <thead>
             <tr>
-                <th></th>
+                <th>
+                    <input id="selectAll" type="checkbox" />
+                </th>
                 <th>
                     @Html.DisplayNameFor(model => model.ContactsList[0].Name)
                 </th>
@@ -117,3 +118,15 @@
 
     <input type="submit" value="Select" class="btn btn-primary" />
 </form>
+
+@section Scripts {
+    <script>
+        // Check/uncheck all checkboxes when "Select All" checkbox is clicked
+        $(function () {
+            $('#selectAll').click(function () {
+                $('input[name="selectedContacts"]').prop('checked', $(this).prop('checked'));
+            });
+        });
+    </script>
+}
+

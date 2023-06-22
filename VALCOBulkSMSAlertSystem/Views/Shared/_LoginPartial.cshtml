@@ -6,40 +6,39 @@
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
     {
-        <li class="nav-item">
+        @*<li class="nav-item">
             <a class="nav-link text-dark" asp-area="" asp-controller="Messages" asp-action="Dashboard">Dashboard</a>
-        </li>
+        </li>*@
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Messages" asp-action="Index">Message Management</a>
+            <a class="nav-link text-dark" asp-area="" asp-controller="Messages" asp-action="Index">Messages</a>
         </li>        
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Contacts" asp-action="Index">Contacts
-                Management</a>
+            <a class="nav-link text-dark" asp-area="" asp-controller="Contacts" asp-action="Index">Contacts</a>
         </li>
         @if (User.IsInRole("Administrators"))
         {
             <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                <a class="nav-link text-dark" asp-area="" asp-controller="UserSettings" asp-action="Index">Users</a>
             </li>
+
             <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="UserSettings" asp-action="Index">User Management</a>
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
             </li>
         }
         <li class="nav-item">
             <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!.Split("@")[0]</a>
-    </li>
-    <li class="nav-item">
-        <form  class="" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-        </form>
-    </li>
-    
-    
-}
-else
-{    
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
-}
-</ul>
+        </li>
+        <li class="nav-item">
+            <form  class="" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+            </form>
+            @*<a class="nav-link" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">Logout</a>*@
+        </li>
+    }
+    else
+    {    
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+    }
+    </ul>
