@@ -4,7 +4,7 @@ namespace VALCOBulkSMSAlertSystem.Authorization
 {
     public class Operations
     {
-        public static class MessagesOperations
+        public static class AllowOperations
         {
             public static OperationAuthorizationRequirement Create =
               new OperationAuthorizationRequirement { Name = Constants.CreateOperationName };

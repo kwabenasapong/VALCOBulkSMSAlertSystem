@@ -309,44 +309,6 @@ textarea.form-control {
 .tab3-2-content {
     display: none;
     padding: 10px;
-}
-
-    .tab3-2-content.active {
-        display: block;
-    }*/
-
-
-/* Button styles */
-/*.btn {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 16px;
-    text-align: center;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    color: #fff;
-}
-
-.btn-primary .createBtn {
-    background-color: #0b5ed7;
-}
-
-.btn-secondary {
-    background-color: #6c757d;
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-.text-right {
-    text-align: right;
-    margin-top: 10px;
-}*/
-
-
---------------------------------
 /*Make my Frontend Beautiful Styles*/
 
 /* Color scheme */
@@ -394,7 +356,7 @@ html {
 .btn-link.nav-link:focus,
 .form-control:focus,
 .form-check-input:focus {
-    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #e3114fcc;
 }
 
 html {

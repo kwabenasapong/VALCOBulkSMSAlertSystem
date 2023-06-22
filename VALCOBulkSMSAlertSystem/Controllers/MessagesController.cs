@@ -101,7 +101,7 @@ namespace VALCOBulkSMSAlertSystem.Controllers
 
                 var isAuthorized = await AuthorizationService.AuthorizeAsync(
                                                             User, messages,
-                                                            MessagesOperations.Create);
+                                                            AllowOperations.Create);
 
                 if (!isAuthorized.Succeeded)
                 {

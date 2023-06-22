@@ -17,14 +17,7 @@ namespace VALCOBulkSMSAlertSystem.Controllers
         {
             _context = context;
         }
-
-        // GET: Contacts
-        /*public async Task<IActionResult> Index()
-        {
-              return _context.Contacts != null ? 
-                          View(await _context.Contacts.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Contacts'  is null.");
-        }*/
+                
         public async Task<IActionResult> Index()
         {
             if (_context.Contacts == null)
