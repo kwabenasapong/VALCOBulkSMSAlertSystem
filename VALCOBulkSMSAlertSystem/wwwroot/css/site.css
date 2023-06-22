@@ -768,6 +768,11 @@ textarea.form-control {
     border-color: #dfae15;
 }
 
+.multiline-input {
+    height: 100px; /* Adjust the height as needed */
+    resize: vertical;
+}
+
 
 
 

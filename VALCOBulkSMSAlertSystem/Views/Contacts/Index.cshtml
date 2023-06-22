@@ -9,21 +9,19 @@
 <p>
     <a class="btn btn-primary" asp-action="Create">Create New</a>
 </p>
+@*Add a form that will be used to Upload Excel File using the Task<IActionResult> UploadFile(IFormFile file) in *@
+@*ContactsController.cs. *@
+<form method="post" enctype="multipart/form-data" asp-controller="Contacts" asp-action="UploadFile">
+    <div class="form-group">
+        <label for="file">Upload Excel File</label>
+        <input type="file" name="file" class="form-control-file" id="file">
+    </div>
+    <button type="submit" class="btn btn-primary">Upload</button>
+</form>
 
 <div>
     <h4>Select a contact(s) to a send message(s)</h4>
 </div>
-
-@if (Model.SelectedContacts != null && Model.SelectedContacts.Count > 0)
-{
-    <h2>Selected Contacts:</h2>
-    <ul>
-        @foreach (var contact in Model.SelectedContacts)
-        {
-            <li>@contact</li>
-        }
-    </ul>
-}
 
 <form method="post" asp-controller="Contacts" asp-action="SelectRecipients">
     @*Post to URL: *@

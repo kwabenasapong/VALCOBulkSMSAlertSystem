@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ExcelDataReader;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 using VALCOBulkSMSAlertSystem.Data;
@@ -234,5 +235,69 @@ namespace VALCOBulkSMSAlertSystem.Controllers
         {
           return (_context.Contacts?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+
+        // Method to Upload & Read Excel File and save to Contacts table (Comment in details)
+        public async Task<IActionResult> UploadFile(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return Content("File not selected");
+            }
+
+            // Get file extension
+            var fileExtension = Path.GetExtension(file.FileName);
+
+            // Check if file is an Excel file
+            if (fileExtension != ".xls" && fileExtension != ".xlsx")
+            {
+                return Content("File is not an Excel file");
+            }
+
+            // Get file path
+            var filePath = Path.GetTempFileName();
+
+            // Save file to path
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            // Open file and read data
+            using (var stream = new FileStream(filePath, FileMode.Open))
+            {
+                using (var reader = ExcelReaderFactory.CreateReader(stream))
+                {
+                    // Get data from Excel file
+                    var contactsList = reader.AsDataSet(new ExcelDataSetConfiguration()
+                    {
+                        ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
+                        {
+                            UseHeaderRow = true
+                        }
+                    }).Tables[0];
+
+                    // Get data from Excel file and save to Contacts table
+                    // the first row of the Excel file is the header row
+                    // the first column of the Excel file is the Name column
+                    // the second column of the Excel file is the Phone column
+                    // the first row of the Excel file is skipped
+
+                    for (int i = 0; i < contactsList.Rows.Count; i++)
+                    {
+                        var contact = new Contacts
+                        {
+                            Name = contactsList.Rows[i][0].ToString(),
+                            Phone = contactsList.Rows[i][1].ToString()
+                        };
+
+                        _context.Contacts.Add(contact);
+                    }
+                    await _context.SaveChangesAsync();
+                }
+            }
+
+            return RedirectToAction(nameof(Index)); 
+        }
     }
+
 }
