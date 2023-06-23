@@ -39,7 +39,7 @@ namespace VALCOBulkSMSAlertSystem.Controllers
                 return result;
             }
 
-            // Return a list of all users in the database
+            // Return a list of all users and their messages in the database
             var userSettings = new UserSettings
             {                
                 VALCOUsers = await _context.Users.ToListAsync()
@@ -136,6 +136,7 @@ namespace VALCOBulkSMSAlertSystem.Controllers
             }
 
             var user = await _context.Users.FindAsync(id);
+            user.UserName = CorrectUserName(user.UserName);
             if (user == null)
             {
                 return NotFound();
@@ -209,6 +210,7 @@ namespace VALCOBulkSMSAlertSystem.Controllers
             }
 
             var user = await _context.Users.FindAsync(id);
+            user.UserName = CorrectUserName(user.UserName);
             if (user == null)
             {
                 return NotFound();
@@ -250,16 +252,13 @@ namespace VALCOBulkSMSAlertSystem.Controllers
             return null; // Return null if the user is authorized as an administrator
         }
 
-        /*// Method to get the current users messages for the Index ViewData
-        private async Task<List<Messages>> GetCurrentUserMessages()
+        // Method to get the a specific user's messages for the Index ViewData
+        /*public async Task<List<Messages>> GetUserMessages(string userId)
         {
-            // Get the current user
-            var currentUser = await _userManager.GetUserAsync(User);
+            var userMessages = await _context.Messages.Where(m => m.UserID == userId).ToListAsync();
 
-            // Get the current user's messages
-            var currentUserMessages = await _context.Messages.Where(m => m.UserID == currentUser.Id).ToListAsync();
-
-            return currentUserMessages;
+            return userMessages;
         }*/
+       
     }
 }

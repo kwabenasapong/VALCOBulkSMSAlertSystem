@@ -1,24 +1,4 @@
-﻿@*@model VALCOBulkSMSAlertSystem.Models.UserSettings
-
-@{
-    ViewData["Title"] = "Details";
-}
-
-<h1>Details</h1>
-
-<div>
-    <h4>UserSettings</h4>
-    <hr />
-    <dl class="row">
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
-*@
-
-@model VALCOBulkSMSAlertSystem.Areas.Identity.Data.VALCOUser
+﻿@model VALCOBulkSMSAlertSystem.Areas.Identity.Data.VALCOUser
 
 <h1>User Details</h1>
 
@@ -29,8 +9,8 @@
         <dd class="col-sm-10">@Model.UserName</dd>
         <dt class="col-sm-2">Email:</dt>
         <dd class="col-sm-10">@Model.Email</dd>
-        <dt class="col-sm-2">Phone Number:</dt>
-        <dd class="col-sm-10">@Model.PhoneNumber</dd>
+        <dt class="col-sm-2">Email Status:</dt>
+        <dd class="col-sm-10">@Model.EmailConfirmed</dd>
     </dl>
 
     <form asp-action="Details">

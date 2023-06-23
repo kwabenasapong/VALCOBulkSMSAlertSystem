@@ -30,28 +30,7 @@
                 <label asp-for="Content" class="control-label"></label>
                 <textarea type="text" asp-for="Content" class="form-control" rows="5"></textarea>
                 <span asp-validation-for="Content" class="text-danger"></span>
-            </div>
-            @* <div class="form-group">
-                <label asp-for="Sender" class="control-label"></label>
-                <input asp-for="Sender" class="form-control" />
-                <span asp-validation-for="Sender" class="text-danger"></span>
-            </div> *@
-              
-            @* <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <input asp-for="Status" class="form-control" />
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
-                <span asp-validation-for="Date" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AspnetUsers" class="control-label"></label>
-                <input asp-for="AspnetUsers" class="form-control" />
-                <span asp-validation-for="AspnetUsers" class="text-danger"></span>
-            </div> *@
+            </div>            
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Send Message</button>
             </div>
@@ -59,11 +38,11 @@
     </div>
 </div>
 
-<div class="text-right">
+@*<div class="text-right">
     <button type="button" class="btn btn-secondary" onclick="insertPlaceholder('<<First Name>>')">First Name</button>
     <button type="button" class="btn btn-secondary" onclick="insertPlaceholder('<<Last Name>>')">Last Name</button>
     <button type="button" class="btn btn-secondary" onclick="insertPlaceholder('<<Full Name>>')">Full Name</button>
-</div>
+</div>*@
 
 <div>
     <a asp-action="Index">Back to List</a>
