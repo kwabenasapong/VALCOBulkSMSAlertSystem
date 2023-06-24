@@ -1,10 +1,4 @@
 ﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-//what am i missing here??
-
-
-
-
 
 // Coverflow for the image gallery in Home/landing page
 var covers = document.querySelectorAll('#coverFlow .cover');

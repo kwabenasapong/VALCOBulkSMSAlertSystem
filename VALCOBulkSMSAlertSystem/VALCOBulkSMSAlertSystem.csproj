@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\components\**" />
+    <Content Remove="wwwroot\components\**" />
+    <EmbeddedResource Remove="wwwroot\components\**" />
+    <None Remove="wwwroot\components\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Areas\Identity\Data\VALCOBulkSMSAlertSystemIdentityDbContext.cs" />
   </ItemGroup>
 
