@@ -60,10 +60,10 @@ using (var scope = app.Services.CreateScope())
     // Set password with the Secret Manager tool.
     // dotnet user-secrets set SeedUserPW <pw>
 
-    var testUserPw = builder.Configuration.GetValue<string>("SeedUserPW");
+    /*var testUserPw = builder.Configuration.GetValue<string>("SeedUserPW");*/
 
     // Changed to manage admin password in appsettings.json
-    /*var testUserPw = builder.Configuration["AdminPW:Password"];*/
+    var testUserPw = builder.Configuration["AdminPW:Password"];
 
     await SeedData.Initialize(services, testUserPw);
 }
