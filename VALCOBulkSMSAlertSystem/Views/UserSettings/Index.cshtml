@@ -27,7 +27,7 @@
                 @*<td>@user.UserMessages.LastOrDefault()</td>*@
                 <td>
                     <div style="display: inline-flex; align-items: center;">
-                        <a class="btn btn-primary" style="margin-right: 10px;" asp-action="Edit" asp-route-id="@user.Id">Edit</a>
+                        @* <a class="btn btn-primary" style="margin-right: 10px;" asp-action="Edit" asp-route-id="@user.Id">Edit</a> *@
                         <a class="btn btn-primary" style="margin-right: 10px;" asp-action="Details" asp-route-id="@user.Id">Details</a>
                         <a class="btn btn-primary" asp-action="Delete" asp-route-id="@user.Id">Delete</a>
                     </div>
