@@ -16,7 +16,8 @@
     },
     "mssql3": {
       "type": "mssql",
-      "connectionId": "VSMSAlertApp_conn"
+      "connectionId": "VSMSAlertApp_conn",
+      "dynamicId": null
     }
   }
 }
