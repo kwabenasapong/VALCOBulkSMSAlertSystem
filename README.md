@@ -34,7 +34,7 @@ To get started with VSMSAlert, follow these steps:
 4. Obtain API credentials from Hubtel and update the configuration settings in the `appsettings.json` file.
 5. Run the application using the `dotnet run` command.
 
-For detailed instructions on setting up and configuring the application, please refer to the [documentation](docs).
+For detailed instructions on setting up and configuring the application, please refer to the [documentation](docs.md).
 
 ## Contributing
 
