@@ -9,6 +9,14 @@
       "type": "mssql",
       "connectionId": "ConnectionStrings:VALCOBulkSMSAlertSystemIdentityDbContextConnection",
       "dynamicId": null
+    },
+    "mssql4": {
+      "type": "mssql",
+      "connectionId": "VSMSAlert_conn"
+    },
+    "mssql3": {
+      "type": "mssql",
+      "connectionId": "VSMSAlertApp_conn"
     }
   }
 }

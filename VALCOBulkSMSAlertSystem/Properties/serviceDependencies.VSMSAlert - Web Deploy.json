@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "mssql4": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/VSMSAlert/providers/Microsoft.ServiceLinker/linkers/VSMSAlert_conn_165970A727",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/valcobulksmsalertsystemdbserver/databases/VALCOBulkSMSAlertSystem_db",
+      "type": "mssql.azure",
+      "connectionId": "VSMSAlert_conn"
+    }
+  }
+}

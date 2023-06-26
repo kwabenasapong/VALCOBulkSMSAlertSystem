@@ -101,7 +101,7 @@ namespace VALCOBulkSMSAlertSystem.Data
             context.Messages.AddRange(
                 new Messages
                 {
-                    Id = 1,
+                    //Id,
                     Title = "Hello World",
                     Content = "This is a test",
                     Sender = "admin@admin.com",
