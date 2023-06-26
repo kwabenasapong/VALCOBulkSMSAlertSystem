@@ -20,6 +20,8 @@ VSMSAlert is an ASP.NET Core MVC application designed for sending SMS messages. 
 
 - Entity Framework Core: Microsoft's Entity Framework Core is used for database management, providing seamless integration with Microsoft SQL Server.
 
+- Frontend: HTML, CSS, and JavaScript are used for developing the frontend of the application. The Razor syntax is utilized for server-side rendering and dynamic content generation.
+
 - Hubtel Quick SMS API: The Hubtel Quick SMS API is integrated into the application to enable sending SMS messages to recipients.
 
 ## Getting Started
@@ -30,7 +32,7 @@ To get started with VSMSAlert, follow these steps:
 2. Install the necessary dependencies by running `dotnet restore` in the project directory.
 3. Set up the database by updating the connection string in the `appsettings.json` file and running the database migrations using `dotnet ef database update`.
 4. Obtain API credentials from Hubtel and update the configuration settings in the `appsettings.json` file.
-5. Run the application using `dotnet run` command.
+5. Run the application using the `dotnet run` command.
 
 For detailed instructions on setting up and configuring the application, please refer to the [documentation](docs).
 
@@ -44,4 +46,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Acknowledgements
 
-We would like to thank the developers and contributors of the ASP.NET Core, C#, Entity Framework Core, and Hubtel Quick SMS API projects for their excellent tools and services that made this project possible.
+We would like to thank the developers and contributors of the ASP.NET Core, C#, Entity Framework Core, Hubtel Quick SMS API, and frontend technologies for their excellent tools and services that made this project possible.
