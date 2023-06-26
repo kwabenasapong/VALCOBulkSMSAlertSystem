@@ -28,7 +28,7 @@ VSMSAlert is an ASP.NET Core MVC application designed for sending SMS messages. 
 
 To get started with VSMSAlert, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/your-username/VSMSAlert.git`
+1. Clone the repository: `git clone https://github.com/kwabenasapong/VSMSAlert.git`
 2. Install the necessary dependencies by running `dotnet restore` in the project directory.
 3. Set up the database by updating the connection string in the `appsettings.json` file and running the database migrations using `dotnet ef database update`.
 4. Obtain API credentials from Hubtel and update the configuration settings in the `appsettings.json` file.
