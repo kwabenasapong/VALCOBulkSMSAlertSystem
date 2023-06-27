@@ -19,12 +19,9 @@ namespace VALCOBulkSMSAlertSystem.Controllers
         protected IAuthorizationService AuthorizationService { get; }
         protected UserManager<VALCOUser> UserManager { get; }
 
-        //private readonly ContactsService _contactsService;
-
         public MessagesController(
             ApplicationDbContext context, 
             HubtelSmsService hubtelSmsService, 
-            ContactsService contactsService, 
             IAuthorizationService authorizationService,
             UserManager<VALCOUser> userManager)
         {
@@ -32,10 +29,8 @@ namespace VALCOBulkSMSAlertSystem.Controllers
             _hubtelSmsService = hubtelSmsService;
             AuthorizationService = authorizationService;
             UserManager = userManager;
-            //_contactsService = contactsService;
         }
 
-        public IList<Messages> Contact { get; set; }
 
         // GET: Messages
         public async Task<IActionResult> Index()
