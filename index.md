@@ -1,8 +1,6 @@
 ---
-title: "VSMSALERT-Project-Site"
+title: "VSMSALERT-Project"
 ---
-# VSMSAlert
-
 VSMSAlert is an ASP.NET Core MVC application designed for sending SMS messages. It provides a user-friendly interface that allows users to send SMS messages to either single or multiple recipients. The application utilizes the Hubtel Quick SMS API for seamless integration with the SMS gateway provider.
 
 ## Key Features
