@@ -14,6 +14,7 @@ VSMSAlert is an ASP.NET Core MVC application designed for sending SMS messages. 
 
 - Administrator Control: The administrator has supervision over non-admin accounts and can manage user registrations. This ensures centralized management while providing decentralized control to individual users.
 
+
 ## Technologies Used
 
 - ASP.NET Core MVC: The application is built using the ASP.NET Core MVC framework, which provides a robust and scalable architecture for web applications.
